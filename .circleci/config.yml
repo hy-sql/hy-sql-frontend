@@ -11,7 +11,8 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
-            - run: curl -X POST -d {} ${netlify}
+            - run: npm run build
+            - run: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
 workflows:
     build-and-test:
       jobs:
