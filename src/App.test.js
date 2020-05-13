@@ -1,1 +1,1 @@
-test("dummy test to pass", () => {})
+test('dummy test to pass', () => {})
