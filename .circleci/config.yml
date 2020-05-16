@@ -1,19 +1,66 @@
 version: 2.1
+
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@2.1.1
+
 jobs:
-  build-and-test:
+  test-build-deploy-master:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: update npm
+          command: npm install
+      - run:
+          name: test
+          command: npm test -- --coverage
+      - run:
+          name: send code coverage report to codecov
+          command: bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: build
+          command: npm run build
+      - run:
+          name: netlify production deploy
+          command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+
+  test-build-deploy-feature:
     executor:
       name: node/default
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-            - run: npm run build
-            - run: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+      - node/install-packages
+      - run:
+          name: test
+          command: npm test -- --coverage
+      - run:
+          name: send code coverage report to codecov
+          command: bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: build
+          command: npm run build
+      - run:
+          name: deploy draft to netlify, look for url in logs
+          command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+  test-build-deploy-production:
+    jobs:
+      - test-build-deploy-master:
+          filters:
+            branches:
+              only: master
+
+  test-build-deploy-draft:
+    jobs:
+      - test-build-deploy-feature:
+          filters:
+            branches:
+              ignore: master
