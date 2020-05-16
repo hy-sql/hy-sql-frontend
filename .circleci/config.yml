@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@2.1.1
 
 jobs:
-  test-build-deploy-production:
+  test-build-deploy-master:
     docker:
       - image: circleci/node:latest
     steps:
@@ -51,14 +51,14 @@ jobs:
           command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
 
 workflows:
-  test-build-deploy-master:
+  test-build-deploy-production:
     jobs:
-      - test:
+      - test-build-deploy-master:
           filters:
             branches:
               only: master
 
-  test-build-deploy-feature:
+  test-build-deploy-draft:
     jobs:
       - test-build-deploy-feature:
           filters:
