@@ -1,0 +1,1 @@
+get https://hy-sql.herokuapp.com/api/ping
