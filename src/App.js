@@ -17,8 +17,8 @@ function App() {
 
   return (
     <div>
-      <h1>Hello World!</h1>
-      ping - {reply.value}
+      <h1>Hello World!!</h1>
+      ping {reply.value}
     </div>
   )
 }
