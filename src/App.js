@@ -17,11 +17,10 @@ function App() {
 
   return (
     <div>
+      Hello World!! ping {reply.value}
       <h1>HY-SQL</h1>
     </div>
   )
 }
-//Removed Hello World portion in favor of the sql functionality
-//<h1>Hello World!!</h1>
-//ping { reply.value }
+
 export default App
