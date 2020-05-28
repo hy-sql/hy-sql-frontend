@@ -17,7 +17,8 @@ function App() {
 
   return (
     <div>
-      Hello World!! ping {reply.value}
+      <p>Hello World!!</p>
+      ping {reply.value}
       <h1>HY-SQL</h1>
     </div>
   )
