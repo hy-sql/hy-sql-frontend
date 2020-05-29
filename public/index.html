@@ -22,33 +22,72 @@
     <div id="root"></div>
     <p>Enter your SQL statement in the field, then click "Submit" to submit the form:</p>
 
-    <form id="form1" method="post" name="queryForm">
-        <textarea name="query[]" rows="10" cols="30" id="box"></textarea>
+    <form id="form" method="post" name="queryForm">
+        <textarea name="query[]" id="box" cols="50" rows="10">   </textarea>
         <input type="button" value="Submit" id="button">
     </form>
 
-    <!-- Returns 200 Success and receives resultArray from a Heroku backend.   -->
-    
+    <!-- Returns 200 Success and receives data from a Heroku backend.   -->
+
+    <!-- TODO ERROR CATCHING-->
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
         let button = document.getElementById("button")
         button.onclick = submitform
+
         async function submitform() {
-            const baseUrl = '/api/query'            
+            const baseUrl = '/api/query'
             var input = document.getElementById('box')
-            var array = []
-            array.push(input.value)
+            var text = input.value
+            var end = ',' + ' "';
+            text = text.replace(/ INSERT/g, (';' + end + "INSERT"))
+            text = text.replace(/ SELECT/g, (';' + end + "SELECT"))
+            var array = text.split(', "')
             var commandArray = { commandArray: array }
+
             //Needs to receive env-parameters?
             var res = await axios.post(`https://hy-sql.herokuapp.com${baseUrl}`, commandArray, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
+
+            let tuomio = res.data.resultArray
+
             console.log(res)
+            console.log(tuomio[0].result)
+            console.log(array)
+
+            var x = document.getElementById("tulos")
+            x.innerHTML = tuomio[0].result
+            document.getElementById('table-rows').innerHTML = res.data.state.tablelist[0].rows.map((item) => {
+                return '<tr><td>' + item.id + '</td><td>' + item.nimi + '</td><td>' + item.hinta + '</td></tr>'
+            }).join('')
         }
+
     </script>
 
+    <p id="tulos"></p>
 
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>nimi</th>
+                <th>hinta</th>
+            </tr>
+        </thead>
+        <tbody id="table-rows">
+        </tbody>
+    </table>
+    <!-- The most complicated tested successful CREATE TABLE:
+    CREATE TABLE Tuotteet (id INTEGER PRIMARY KEY, nimi TEXT, hinta INTEGER)
+    INSERT INTO Tuotteet (nimi, hinta) VALUES ('retiisi', 7)
+    INSERT INTO Tuotteet (nimi, hinta) VALUES ('porkkana', 2)
+    INSERT INTO Tuotteet (nimi, hinta) VALUES ('sipuli', 5)
+    INSERT INTO Tuotteet (nimi, hinta) VALUES ('lanttu', 9)
+    SELECT nimi, hinta FROM Tuotteet ORDER BY nimi DESC;
+    -->
 </body>
 </html>
