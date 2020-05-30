@@ -14,7 +14,18 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>React App</title>
+    
+    <style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+    }
+    </style>
 </head>
+
 <body>
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -28,11 +39,12 @@
     </form>
 
     <!-- Returns 200 Success and receives data from a Heroku backend.   -->
-
-    <!-- TODO ERROR CATCHING-->
+    <!-- Creates a table with fixed row format   -->
+    <!-- TODO TESTING-->
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
+
         let button = document.getElementById("button")
         button.onclick = submitform
 
@@ -41,8 +53,9 @@
             var input = document.getElementById('box')
             var text = input.value
             var end = ',' + ' "';
-            text = text.replace(/ INSERT/g, (';' + end + "INSERT"))
-            text = text.replace(/ SELECT/g, (';' + end + "SELECT"))
+            text.trim()
+            text = text.replace(/INSERT/g, (';' + end + "INSERT"))
+            text = text.replace(/SELECT/g, (';' + end + "SELECT"))
             var array = text.split(', "')
             var commandArray = { commandArray: array }
 
@@ -52,18 +65,71 @@
                     'Content-Type': 'application/json'
                 }
             })
+            console.log(res)
+
+            //Initialise table
+            document.getElementById("table-rows").innerHTML = ""
 
             let tuomio = res.data.resultArray
+            var r = tuomio.length - 1
+            const iterator1 = tuomio.entries()
 
-            console.log(res)
-            console.log(tuomio[0].result)
-            console.log(array)
+            //Verbal results
+            var kunnossa = true
+            var tulos = ""
+            for (let e of iterator1) {
+                if (e[1].result) {
+                    console.log(e[1].result)
+                    tulos += '<br>' + e[1].result
+                }
 
-            var x = document.getElementById("tulos")
-            x.innerHTML = tuomio[0].result
-            document.getElementById('table-rows').innerHTML = res.data.state.tablelist[0].rows.map((item) => {
-                return '<tr><td>' + item.id + '</td><td>' + item.nimi + '</td><td>' + item.hinta + '</td></tr>'
-            }).join('')
+                if (e[1].error) {
+                    console.log(e[1].error)
+                    tulos += '<br>' + e[1].error
+                    kunnossa = false
+                    break
+                }
+                if (tuomio.length == 1) {
+                    console.log(tuomio[0])
+                    tulos += '<br>' + tuomio[0]
+                    kunnossa = false
+                    break
+                }
+            }
+            document.getElementById("tulos").innerHTML = tulos
+
+            //Doesn't create table if kunnossa = false
+            if (kunnossa) {
+
+                //Columns
+                try {
+                    var col = res.data.state.tablelist[0].columns
+                    var columns = ""
+                    for (var i = 0; i < col.length; i++) {
+                        if (col) {
+                            columns = columns + "<th>" + col[i].name + "</th>"
+                        }
+                    }
+                    document.getElementById("table-columns").innerHTML = '<tr>' + columns + '</tr>'
+
+                } catch (e) {
+                    console.log(e)
+
+                }
+
+                //Rows
+                try {
+                    var rividata = res.data.resultArray[r].rows
+                    document.getElementById("table-rows").innerHTML = rividata.map((item) => {
+                        return '<tr><td>' + item.id + '</td><td>' + item.nimi + '</td><td>' + item.hinta + '</td></tr>'
+                    }).join('').replace(/undefined/g, '')
+                    console.log(rividata)
+
+                } catch (e) {
+                    console.log(e)
+
+                }
+            }
         }
 
     </script>
@@ -71,23 +137,10 @@
     <p id="tulos"></p>
 
     <table>
-        <thead>
-            <tr>
-                <th>id</th>
-                <th>nimi</th>
-                <th>hinta</th>
-            </tr>
+        <thead id="table-columns">
         </thead>
         <tbody id="table-rows">
         </tbody>
     </table>
-    <!-- The most complicated tested successful CREATE TABLE:
-    CREATE TABLE Tuotteet (id INTEGER PRIMARY KEY, nimi TEXT, hinta INTEGER)
-    INSERT INTO Tuotteet (nimi, hinta) VALUES ('retiisi', 7)
-    INSERT INTO Tuotteet (nimi, hinta) VALUES ('porkkana', 2)
-    INSERT INTO Tuotteet (nimi, hinta) VALUES ('sipuli', 5)
-    INSERT INTO Tuotteet (nimi, hinta) VALUES ('lanttu', 9)
-    SELECT nimi, hinta FROM Tuotteet ORDER BY nimi DESC;
-    -->
 </body>
 </html>
