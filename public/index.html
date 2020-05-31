@@ -54,8 +54,8 @@
             var text = input.value
             var end = ',' + ' "';
             text.trim()
-            text = text.replace(/INSERT/g, (';' + end + "INSERT"))
-            text = text.replace(/SELECT/g, (';' + end + "SELECT"))
+            text = text.replace(/INSERT/g, (end + "INSERT"))
+            text = text.replace(/SELECT/g, (end + "SELECT"))
             var array = text.split(', "')
             var commandArray = { commandArray: array }
 
