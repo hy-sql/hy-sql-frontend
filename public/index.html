@@ -1,14 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description"
+          content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -16,15 +14,133 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    
+    <style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+    }
+    </style>
+</head>
 
-      You can add webfonts, meta tags, or analytics to this file.
-    -->
-  </body>
+<body>
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="root"></div>
+    <p>Enter your SQL statement in the field, then click "Submit" to submit the form:</p>
+
+    <form id="form" method="post" name="queryForm">
+        <textarea name="query[]" id="box" cols="50" rows="10">   </textarea>
+        <input type="button" value="Submit" id="button">
+    </form>
+
+    <!-- Returns 200 Success and receives data from a Heroku backend.   -->
+    <!-- Creates a table with fixed row format   -->
+    <!-- TODO TESTING-->
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+
+        let button = document.getElementById("button")
+        button.onclick = submitform
+
+        async function submitform() {
+            const baseUrl = '/api/query'
+            var input = document.getElementById('box')
+            var text = input.value
+            var end = ',' + ' "';
+            text.trim()
+            text = text.replace(/INSERT/g, (';' + end + "INSERT"))
+            text = text.replace(/SELECT/g, (';' + end + "SELECT"))
+            var array = text.split(', "')
+            var commandArray = { commandArray: array }
+
+            //Needs to receive env-parameters?
+            var res = await axios.post(`https://hy-sql.herokuapp.com${baseUrl}`, commandArray, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log(res)
+
+            //Initialise table
+            document.getElementById("table-rows").innerHTML = ""
+
+            let tuomio = res.data.resultArray
+            var r = tuomio.length - 1
+            const iterator1 = tuomio.entries()
+
+            //Verbal results
+            var kunnossa = true
+            var tulos = ""
+            for (let e of iterator1) {
+                if (e[1].result) {
+                    console.log(e[1].result)
+                    tulos += '<br>' + e[1].result
+                }
+
+                if (e[1].error) {
+                    console.log(e[1].error)
+                    tulos += '<br>' + e[1].error
+                    kunnossa = false
+                    break
+                }
+                if (tuomio.length == 1) {
+                    console.log(tuomio[0])
+                    tulos += '<br>' + tuomio[0]
+                    kunnossa = false
+                    break
+                }
+            }
+            document.getElementById("tulos").innerHTML = tulos
+
+            //Doesn't create table if kunnossa = false
+            if (kunnossa) {
+
+                //Columns
+                try {
+                    var col = res.data.state.tablelist[0].columns
+                    var columns = ""
+                    for (var i = 0; i < col.length; i++) {
+                        if (col) {
+                            columns = columns + "<th>" + col[i].name + "</th>"
+                        }
+                    }
+                    document.getElementById("table-columns").innerHTML = '<tr>' + columns + '</tr>'
+
+                } catch (e) {
+                    console.log(e)
+
+                }
+
+                //Rows
+                try {
+                    var rividata = res.data.resultArray[r].rows
+                    document.getElementById("table-rows").innerHTML = rividata.map((item) => {
+                        return '<tr><td>' + item.id + '</td><td>' + item.nimi + '</td><td>' + item.hinta + '</td></tr>'
+                    }).join('').replace(/undefined/g, '')
+                    console.log(rividata)
+
+                } catch (e) {
+                    console.log(e)
+
+                }
+            }
+        }
+
+    </script>
+
+    <p id="tulos"></p>
+
+    <table>
+        <thead id="table-columns">
+        </thead>
+        <tbody id="table-rows">
+        </tbody>
+    </table>
+</body>
 </html>

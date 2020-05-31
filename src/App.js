@@ -14,11 +14,12 @@ function App() {
       setReply(initReply)
     })
   }, [hysqlSrv])
-
+  let styleobj = { fontSize: 10 }
   return (
     <div>
-      <h1>Hello World!!</h1>
+      <p style={styleobj}>Hello World!!</p>
       ping {reply.value}
+      <h1>HY-SQL</h1>
     </div>
   )
 }
