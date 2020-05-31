@@ -4,7 +4,7 @@ const html = fs.readFileSync(
   path.resolve(__dirname, '../public/index.html'),
   'utf8'
 )
-
+// && jest--watchAll --verbose / __tests__" ----------- to package.json to enable __tests__
 jest.dontMock('fs')
 
 describe('form', function () {
