@@ -7,7 +7,7 @@ orbs:
 jobs:
   test-build-deploy-master:
     docker:
-      - image: cypress/base:10
+      - image: cypress/base:8
         environment:
           TERM: xterm
     steps:
