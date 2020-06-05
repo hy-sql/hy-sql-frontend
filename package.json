@@ -15,9 +15,9 @@
     "react-scripts": "^3.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false && jest --watchAll=false --verbose /__tests__",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -37,7 +37,10 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.10.2",
+    "@cypress/code-coverage": "^3.8.1",
+    "@cypress/instrument-cra": "^1.1.1",
     "babel-jest": "24.9.0",
+    "cypress": "^4.7.0",
     "husky": "^4.2.5",
     "jest": "24.9.0",
     "lint-staged": "^10.2.2",

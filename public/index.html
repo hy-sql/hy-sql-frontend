@@ -38,7 +38,7 @@
         <input type="button" value="Submit" id="button">
     </form>
 
-    <!-- Returns 200 Success and receives data from a Heroku backend.   -->
+    <!-- Returns 200 Success and receives data from a Heroku backend.   ';' + end-->
     <!-- Creates a table with fixed row format   -->
     <!-- TODO TESTING-->
 
@@ -54,13 +54,13 @@
             var text = input.value
             var end = ',' + ' "';
             text.trim()
-            text = text.replace(/INSERT/g, (';' + end + "INSERT"))
-            text = text.replace(/SELECT/g, (';' + end + "SELECT"))
+            text = text.replace(/INSERT/g, (end + "INSERT"))
+            text = text.replace(/SELECT/g, (end + "SELECT"))
             var array = text.split(', "')
             var commandArray = { commandArray: array }
 
             //Needs to receive env-parameters?
-            var res = await axios.post(`https://hy-sql.herokuapp.com${baseUrl}`, commandArray, {
+            var res = await axios.post(`http://localhost:3001${baseUrl}`, commandArray, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

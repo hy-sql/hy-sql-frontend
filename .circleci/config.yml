@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@2.1.1
+  cypress: cypress-io/cypress@1
 
 jobs:
   test-build-deploy-master:
@@ -14,6 +15,8 @@ jobs:
       - run:
           name: update npm
           command: npm install
+
+            
       - run:
           name: test
           command: npm test -- --coverage
@@ -23,6 +26,10 @@ jobs:
       - run:
           name: build
           command: npm run build
+      - cypress/run:
+          record: true
+          group: 'cypress tests'
+          start: 'npm start'
       - run:
           name: netlify production deploy
           command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
@@ -46,6 +53,10 @@ jobs:
       - run:
           name: build
           command: npm run build
+      - cypress/run:
+          record: true
+          group: 'cypress tests'
+          start: 'npm start'
       - run:
           name: deploy draft to netlify, look for url in logs
           command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN

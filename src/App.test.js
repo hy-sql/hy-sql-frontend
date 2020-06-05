@@ -1,8 +1,6 @@
 import React from 'react'
-import axios from 'axios'
 import { render, waitForElement } from '@testing-library/react'
 import App from './App'
-import { ping } from './services/ping.js'
 jest.mock('./services/ping')
 jest.mock('axios')
 
