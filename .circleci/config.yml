@@ -55,7 +55,6 @@ jobs:
           command: npm test -- --coverage
       - run: npx cypress run --record --key 5076d6b7-a524-4b98-95ce-7271765e4918
       - run: pkill Xvfb
-      - run: npx cypress run --record --key 5076d6b7-a524-4b98-95ce-7271765e4918
       - run:
           name: send code coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
