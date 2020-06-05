@@ -2,41 +2,40 @@ version: 2.1
 
 orbs:
   node: circleci/node@2.1.1
-  cypress: cypress-io/cypress@1
+  cypress: cypress-io/cypress@1.24.0
 
 jobs:
   test-build-deploy-master:
     docker:
-      - image: circleci/node:latest
+      - image: cypress/base:10
+        environment:
+          TERM: xterm
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: cache-{{ checksum "package-lock.json" }}
       - run:
           name: update npm
           command: npm install
-
-            
       - run:
           name: test
           command: npm test -- --coverage
+      - run: npx cypress run --record --key 5076d6b7-a524-4b98-95ce-7271765e4918
       - run:
           name: send code coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
       - run:
           name: build
           command: npm run build
-      - cypress/run:
-          record: true
-          group: 'cypress tests'
-          start: 'npm start'
       - run:
           name: netlify production deploy
           command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: cache-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
+            - ~/.cache
+            - ~/.npm
 
   test-build-deploy-feature:
     executor:
@@ -47,16 +46,13 @@ jobs:
       - run:
           name: test
           command: npm test -- --coverage
+      - run: npx cypress run --record --key 5076d6b7-a524-4b98-95ce-7271765e4918
       - run:
           name: send code coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
       - run:
           name: build
           command: npm run build
-      - cypress/run:
-          record: true
-          group: 'cypress tests'
-          start: 'npm start'
       - run:
           name: deploy draft to netlify, look for url in logs
           command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
