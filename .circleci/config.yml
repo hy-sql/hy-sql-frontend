@@ -19,8 +19,8 @@ jobs:
           command: npm install
       - run: 
           name: intitalize Xvfb
-          command: Xvfb :99 &
-      - run: export DISPLAY=:99    
+          command: Xvfb :99 & export DISPLAY=:99    
+      - run: xvfb-run
       - run:
           name: test
           command: npm test -- --coverage
@@ -48,6 +48,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages
+      -run: apt-get install libgtk2.0-0 libgtk-3-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - run: 
           name: intitalize Xvfb
           command: Xvfb :99 & export DISPLAY=:99
