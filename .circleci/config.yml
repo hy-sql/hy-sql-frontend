@@ -7,7 +7,7 @@ orbs:
 jobs:
   test-build-deploy-master:
     docker:
-      - image: cypress/base:12
+      - image: cypress/base:8
         environment:
           TERM: xterm
     steps:
@@ -18,7 +18,8 @@ jobs:
           name: update npm
           command: npm install
       - run: 
-      command: Xvfb :99 & export DISPLAY=:99
+      command: Xvfb :99
+      - run: export DISPLAY=:99
       - run:
           name: test
           command: npm test -- --coverage
