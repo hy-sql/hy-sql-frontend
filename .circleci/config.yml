@@ -48,10 +48,9 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-      - run: Xvfb-run
       - run: 
           name: intitalize Xvfb
-          command: Xvfb :99 & export DISPLAY=:99
+          command: Xvfb :99
       - run:
           name: test
           command: npm test -- --coverage
