@@ -1,3 +1,5 @@
 {
-  "projectId": "3xz4zv"
+  "projectId": "3xz4zv",
+  "experimentalComponentTesting": true,
+  "componentFolder": "src"
 }

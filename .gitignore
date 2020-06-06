@@ -2,11 +2,11 @@
 /node_modules
 /.pnp
 .pnp.js
-/cypress
 
 # testing
 /coverage
-
+/cypress-coverage
+.nyc_output
 # production
 /build
 

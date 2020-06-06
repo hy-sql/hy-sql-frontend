@@ -60,7 +60,7 @@
             var commandArray = { commandArray: array }
 
             //Needs to receive env-parameters?
-            var res = await axios.post(`http://localhost:3001${baseUrl}`, commandArray, {
+            var res = await axios.post(`https://hy-sql.herokuapp.com${baseUrl}`, commandArray, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
