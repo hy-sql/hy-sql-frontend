@@ -65,15 +65,15 @@ workflows:
       jobs: 
       - cypress/run 
       filters: 
-        branches: 
-        ignore: 
-          - master        
-        record: true
-        start: npm start
-        post-steps: 
-        - store_artifacts: 
-          path: coverage  
-        - run: npx nyc report
-        build: npm run build
-        command: bash <(curl -s https://codecov.io/bash)
-        command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+      branches: 
+      ignore: 
+        - master        
+      record: true
+      start: npm start
+      post-steps: 
+      - store_artifacts: 
+        path: coverage  
+      - run: npx nyc report
+      build: npm run build
+      command: bash <(curl -s https://codecov.io/bash)
+      command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
