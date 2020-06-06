@@ -6,8 +6,8 @@
 # testing
 /coverage
 /cypress-coverage
-/cypress/videos
-/cypress/screenshots
+/cypress/videos/*
+/cypress/screenshots/*
 
 .nyc_output
 # production

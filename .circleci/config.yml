@@ -64,7 +64,6 @@ workflows:
   test-build-deploy-draft:
     jobs:
       - cypress/run
-          name: Dev cypress
           filters:
             branches:
               ignore: 
