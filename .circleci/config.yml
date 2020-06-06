@@ -62,7 +62,7 @@ workflows:
             only: master
 
   test-build-deploy-draft:
-      jobs: 
+    jobs: 
       - cypress/run 
       filters: 
       branches: 
