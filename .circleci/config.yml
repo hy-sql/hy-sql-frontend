@@ -8,8 +8,6 @@ jobs:
   test-build-deploy-master:
     docker:
       - image: cypress/base:12
-        environment:
-          TERM: xterm
     steps:
       - checkout
       - restore_cache:
@@ -17,15 +15,9 @@ jobs:
       - run:
           name: update npm
           command: npm install
-      - run: 
-          name: intitalize Xvfb
-          command: Xvfb :99 & export DISPLAY=:99    
-      - run: xvfb-run
       - run:
           name: test
           command: npm test -- --coverage
-      - run: npx cypress run --record --key 5076d6b7-a524-4b98-95ce-7271765e4918
-      - run: pkill Xvfb
       - run:
           name: send code coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
@@ -72,12 +64,17 @@ workflows:
   test-build-deploy-draft:
     jobs:
       - cypress/run
-          command: npm test
+          name: Dev cypress
+          filters:
+            branches:
+              ignore: 
+              - master        
+          record: true
+          start: npm start
           post-steps:
           - store_artifacts:
             path: coverage  
             - run: npx nyc report
-      - test-build-deploy-feature:
-          filters:
-            branches:
-              ignore: master
+          build: npm run build
+          command: bash <(curl -s https://codecov.io/bash)
+          command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN

@@ -60,6 +60,6 @@
     ]
   },
   "nyc": {
-    "report-dir": "cypress-coverage"
+    "report-dir": "coverage"
   }
 }
