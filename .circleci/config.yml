@@ -1,39 +1,9 @@
 version: 2.1
 
-orbs:
+orbs:  
+  cypress: cypress-io/cypress@1
   node: circleci/node@2.1.1
-  cypress: cypress-io/cypress@1.24.0
-
 jobs:
-  test-build-deploy-master:
-    docker:
-      - image: cypress/base:12
-    steps:
-      - checkout
-      - restore_cache:
-          key: cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: update npm
-          command: npm install
-      - run:
-          name: test
-          command: npm test -- --coverage
-      - run:
-          name: send code coverage report to codecov
-          command: bash <(curl -s https://codecov.io/bash)
-      - run:
-          name: build
-          command: npm run build
-      - run:
-          name: netlify production deploy
-          command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
-      - save_cache:
-          key: cache-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-            - ~/.cache
-            - ~/.npm
-
   test-build-deploy-feature:
     executor:
       name: node/default
@@ -62,12 +32,12 @@ workflows:
             only: master
 
   test-build-deploy-draft:
-    jobs: 
+      jobs: 
       - cypress/run 
       filters: 
       branches: 
       ignore: 
-        - master        
+      - master        
       record: true
       start: npm start
       post-steps: 
