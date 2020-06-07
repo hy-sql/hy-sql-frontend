@@ -47,17 +47,23 @@ jobs:
       - run:
           name: build
           command: npm run build
-      - run:
-          name: start server
-          command: npm run start
-          background: true
-      - run: sleep 10
+#      - run:
+#          name: start server
+#          command: npm start
+#          background: true
       - run:
           name: cypress tests
           command: npx cypress run --record --key feba9e22-8635-4de9-bfb5-713553b446aa
+      - store_artifacts:
+          path: /cypress/videos
+      - store_artifacts:
+          path: /cypress/screenshots
       - run:
           name: send code coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: build
+          command: npm run build
       - run:
           name: deploy draft to netlify, look for url in logs
           command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
