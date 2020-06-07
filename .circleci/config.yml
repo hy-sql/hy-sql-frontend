@@ -44,7 +44,6 @@ jobs:
       - run:
           name: start server
           command: npm start
-          background: true
       - run:
           name: cypress tests
           command: npx cypress run --record --key feba9e22-8635-4de9-bfb5-713553b446aa
@@ -62,16 +61,16 @@ workflows:
   test-build-deploy-production:
     jobs:
       - test-build-deploy-master:
-        filters:
-          branches:
-            only: master
+          filters:
+            branches:
+              only: master
 
   test-build-deploy-draft:
-    jobs: 
+    jobs:
       - test-build-deploy-feature:
-        filters:
-          branches:
-            ignore: master
+          filters:
+            branches:
+              ignore: master
 
 
 
