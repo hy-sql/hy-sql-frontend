@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: update npm
           command: npm install
@@ -30,10 +30,9 @@ jobs:
           name: netlify production deploy
           command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
       - save_cache:
-          key: cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
-            - ~/.cache
 
   test-build-deploy-feature:
     docker:
