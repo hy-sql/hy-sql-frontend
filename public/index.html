@@ -34,11 +34,11 @@
     <p>Enter your SQL statement in the field, then click "Submit" to submit the form:</p>
 
     <form id="form" method="post" name="queryForm">
-        <textarea name="query[]" id="box" cols="50" rows="10">   </textarea>
+        <textarea name="query[]" id="box" cols="50" rows="10"></textarea>
         <input type="button" value="Submit" id="button">
     </form>
 
-    <!-- Returns 200 Success and receives data from a Heroku backend.   -->
+    <!-- Returns 200 Success and receives data from a Heroku backend.   ';' + end-->
     <!-- Creates a table with fixed row format   -->
     <!-- TODO TESTING-->
 
@@ -89,7 +89,7 @@
                     kunnossa = false
                     break
                 }
-                if (tuomio.length == 1) {
+                if (tuomio.length == 1 && !tuomio[0].result) {
                     console.log(tuomio[0])
                     tulos += '<br>' + tuomio[0]
                     kunnossa = false

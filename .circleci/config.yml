@@ -1,12 +1,12 @@
 version: 2.1
 
-orbs:
+orbs:  
+  cypress: cypress-io/cypress@1.24.0
   node: circleci/node@2.1.1
-
 jobs:
   test-build-deploy-master:
     docker:
-      - image: circleci/node:latest
+      - image: cypress/base:12
     steps:
       - checkout
       - restore_cache:
@@ -15,8 +15,11 @@ jobs:
           name: update npm
           command: npm install
       - run:
-          name: test
-          command: npm test -- --coverage
+          name: start server
+          command: npm start
+      - run:
+          name: cypress tests
+          command: npx cypress run --record --key feba9e22-8635-4de9-bfb5-713553b446aa
       - run:
           name: send code coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
@@ -32,14 +35,19 @@ jobs:
             - node_modules
 
   test-build-deploy-feature:
+    docker:
+      - image: cypress/base:12
     executor:
       name: node/default
     steps:
       - checkout
       - node/install-packages
       - run:
-          name: test
-          command: npm test -- --coverage
+          name: start server
+          command: npm start
+      - run:
+          name: cypress tests
+          command: npx cypress run --record --key feba9e22-8635-4de9-bfb5-713553b446aa
       - run:
           name: send code coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
@@ -64,3 +72,8 @@ workflows:
           filters:
             branches:
               ignore: master
+
+
+
+
+

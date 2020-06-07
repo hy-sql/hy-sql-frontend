@@ -15,6 +15,7 @@ function App() {
     })
   }, [hysqlSrv])
   let styleobj = { fontSize: 10 }
+
   return (
     <div>
       <p style={styleobj}>Hello World!!</p>
