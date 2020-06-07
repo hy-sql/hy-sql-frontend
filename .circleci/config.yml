@@ -46,7 +46,7 @@ jobs:
           command: npx nyc instrument --compact=false src instrumented
       - run:
           name: start server
-          command: npm run start & npx wait-on http://localhost:3000
+          command: npm run start & npx wait-on http://127.0.0.2:3000/
           background: true
       - run:
           name: cypress tests

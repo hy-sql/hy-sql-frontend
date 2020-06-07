@@ -1,7 +1,3 @@
-import React from 'react'
-import { mount } from 'cypress-react-unit-test'
-import App from '../App'
-
 describe('Page renders', () => {
   it('successfully loads', () => {
     cy.visit('127.0.0.2:3000')
