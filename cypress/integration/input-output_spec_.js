@@ -11,7 +11,7 @@ describe('Proper input gets an answer with no error', () => {
       "CREATE TABLE Tuotteet (id INTEGER PRIMARY KEY, nimi TEXT FOREIGN KEY, hinta INTEGER); INSERT INTO Tuotteet (nimi, hinta) VALUES ('retiisi', 7); SELECT * FROM Tuotteet;"
     )
     cy.get('[id="button"]').click()
-    cy.wait(5000)
+    cy.wait(3000)
     cy.get('[id="tulos"]')
       .contains('SELECT * FROM Tuotteet -query was executed succesfully')
       .should('be.visible')

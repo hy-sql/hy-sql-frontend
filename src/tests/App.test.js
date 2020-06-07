@@ -1,3 +1,7 @@
+import React from 'react'
+import { mount } from 'cypress-react-unit-test'
+import App from '../App'
+
 describe('Page renders', () => {
   it('successfully loads', () => {
     cy.visit('https://hy-sql.netlify.app/')

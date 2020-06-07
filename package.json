@@ -2,20 +2,20 @@
   "name": "hy-sql-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost:3000/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "dotenv": "^8.2.0",
+    "mochawesome": "^6.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1"
   },
   "scripts": {
-    "start": "react-scripts -r @cypress/instrument-cra start",
+    "start": "set PORT=3000 && react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "npx cypress run",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -40,16 +40,18 @@
     "axios": "^0.19.2",
     "babel-jest": "24.9.0",
     "babel-plugin-istanbul": "^6.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "browserify": "^16.5.1",
     "cypress": "^4.7.0",
     "cypress-react-unit-test": "^4.4.2",
     "husky": "^4.2.5",
+    "istanbul-lib-coverage": "^3.0.0",
     "jest": "24.9.0",
     "lint-staged": "^10.2.2",
+    "mocha": "^5.2.0",
     "netlify-cli": "^2.51.0",
-    "nyc": "14.1.1",
-    "prettier": "^2.0.5",
-    "wait-on": "^5.0.1"
+    "nyc": "^14.1.1",
+    "prettier": "^2.0.5"
   },
   "husky": {
     "hooks": {
@@ -60,8 +62,5 @@
     "*.{js,css,md}": [
       "prettier --write"
     ]
-  },
-  "nyc": {
-    "report-dir": "coverage"
   }
 }
