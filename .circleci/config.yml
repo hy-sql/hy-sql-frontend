@@ -1,7 +1,6 @@
 version: 2.1
 
 orbs:  
-  cypress: cypress-io/cypress@1.24.0
   node: circleci/node@2.1.1
 jobs:
   test-build-deploy-master:
@@ -46,7 +45,7 @@ jobs:
           command: npx nyc instrument --compact=false src instrumented
       - run:
           name: start server
-          command: npm run start & npx wait-on http://127.0.0.2:3000/
+          command: npm run start & npx wait-on http://localhost:3000/
           background: true
       - run:
           name: cypress tests

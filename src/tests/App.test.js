@@ -1,13 +1,13 @@
 describe('Page renders', () => {
   it('successfully loads', () => {
-    cy.visit('127.0.0.2:3000')
+    cy.visit('http://localhost:3000/')
     cy.get('h1').contains('HY-SQL').should('be.visible')
   })
 })
 
 describe('<App />', () => {
   it('ping and its reply are rendered', () => {
-    cy.visit('127.0.0.2:3000')
+    cy.visit('http://localhost:3000/')
     cy.wait(500)
 
     cy.get('div').contains('ping').should('be.visible')
@@ -17,7 +17,7 @@ describe('<App />', () => {
 
 describe('<App />', () => {
   it('ping is received', () => {
-    cy.visit('127.0.0.2:3000')
+    cy.visit('http://localhost:3000/')
     cy.wait(500)
     cy.request('GET', 'https://hy-sql.herokuapp.com/api/ping').as('pong')
     cy.get('@pong').should((response) => {
