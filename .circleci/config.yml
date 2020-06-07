@@ -44,6 +44,9 @@ jobs:
 #      - run:
 #          name: start server
 #          command: npm start
+      - run: 
+          name: instrumenting
+          command: npx nyc instrument ./src
       - run:
           name: cypress tests
           command: npx cypress run --record --key feba9e22-8635-4de9-bfb5-713553b446aa
