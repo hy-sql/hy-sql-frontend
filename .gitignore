@@ -8,6 +8,7 @@
 /cypress-coverage
 /cypress/videos/*
 /cypress/screenshots/*
+/instrumented
 
 .nyc_output
 # production

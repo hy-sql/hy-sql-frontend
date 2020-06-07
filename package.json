@@ -16,7 +16,7 @@
   "scripts": {
     "start": "set PORT=3000 && react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
-    "test": "npx cypress run",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -47,7 +47,8 @@
     "lint-staged": "^10.2.2",
     "netlify-cli": "^2.51.0",
     "nyc": "14.1.1",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "wait-on": "^5.0.1"
   },
   "husky": {
     "hooks": {

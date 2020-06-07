@@ -41,12 +41,16 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-#      - run:
-#          name: start server
-#          command: npm start
       - run: 
           name: instrumenting
-          command: npx nyc instrument ./src
+          command: npx nyc instrument --compact=false src instrumented
+      - run:
+          name: start server
+          command: npm start 
+          background: true
+      - run:
+          name: wait server
+          command: npx wait-on http://localhost:3000
       - run:
           name: cypress tests
           command: npx cypress run --record --key feba9e22-8635-4de9-bfb5-713553b446aa
