@@ -8,7 +8,6 @@
 /cypress-coverage
 /cypress/videos/*
 /cypress/screenshots/*
-/local coverage report/
 .nyc_output
 # production
 /build
