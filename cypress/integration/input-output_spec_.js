@@ -5,7 +5,7 @@ describe('Page renders', () => {
   })
 })
 describe('Proper input gets an answer with no error', () => {
-  it('successfully loads', () => {
+  it('no errors are shown', () => {
     cy.visit('https://hy-sql.netlify.app/')
     cy.get('textarea').type(
       "CREATE TABLE Tuotteet (id INTEGER PRIMARY KEY, nimi TEXT FOREIGN KEY, hinta INTEGER); INSERT INTO Tuotteet (nimi, hinta) VALUES ('retiisi', 7); SELECT * FROM Tuotteet;"
@@ -20,7 +20,7 @@ describe('Proper input gets an answer with no error', () => {
   })
 })
 describe('Improper input gets an answer with an error', () => {
-  it('successfully loads', () => {
+  it('error is shown', () => {
     cy.visit('https://hy-sql.netlify.app/')
     cy.get('textarea').type(
       "CREATE TABLE Tuotteet (id INTEGER PRIMARY KEY, nimi TEXT FOREIGN KEY, hinta INTEGER); INSERT INTO Tuotteet (nimi, hinta) VALUES ('retiisi', 7) SELECT * FROM Tuotteet;"
