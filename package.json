@@ -14,9 +14,9 @@
     "react-scripts": "^3.4.1"
   },
   "scripts": {
-    "start": "react-scripts -r @cypress/instrument-cra start",
+    "start": "set PORT=3000 && react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "npx cypress run",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
