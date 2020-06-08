@@ -34,13 +34,14 @@
     <p>Enter your SQL statement in the field, then click "Submit" to submit the form:</p>
 
     <form id="form" method="post" name="queryForm">
-        <textarea name="query[]" id="box" cols="50" rows="10"></textarea>
+        <textarea name="query[]" id="box" cols="80" rows="20"></textarea>
         <input type="button" value="Submit" id="button">
     </form>
 
-    <!-- Returns 200 Success and receives data from a Heroku backend.   ';' + end-->
-    <!-- Creates a table with fixed row format   -->
-    <!-- TODO TESTING-->
+    <!-- Receives 200 Success and data from a Heroku backend. -->
+    <!-- Creates a table with dynanmic columns and dynamic rows based on received resultArray.
+         Columns are named in order according to keys given to the first row of resultArray. 
+         Rows are generated in the same order by getting the values of each row. -->
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
@@ -69,6 +70,7 @@
 
             //Initialise table
             document.getElementById("table-rows").innerHTML = ""
+            document.getElementById("table-columns").innerHTML = ""
 
             let tuomio = res.data.resultArray
             var r = tuomio.length - 1
@@ -103,15 +105,15 @@
 
                 //Columns
                 try {
-                    var col = res.data.state.tablelist[0].columns
+                    var col = res.data.resultArray[r].rows
                     var columns = ""
-                    for (var i = 0; i < col.length; i++) {
-                        if (col) {
-                            columns = columns + "<th>" + col[i].name + "</th>"
+                    var colu = Object.getOwnPropertyNames(col[0])
+                    for (var i = 0; i < colu.length; i++) {
+                        if (col) {                            
+                            columns = columns + "<th>" + colu[i] + "</th>"
                         }
                     }
                     document.getElementById("table-columns").innerHTML = '<tr>' + columns + '</tr>'
-
                 } catch (e) {
                     console.log(e)
 
@@ -120,10 +122,18 @@
                 //Rows
                 try {
                     var rividata = res.data.resultArray[r].rows
+                    var rows = ""
                     document.getElementById("table-rows").innerHTML = rividata.map((item) => {
-                        return '<tr><td>' + item.id + '</td><td>' + item.nimi + '</td><td>' + item.hinta + '</td></tr>'
+                        var names = Object.values(item)
+
+                        for (var i = 0; i < names.length; i++) {                            
+                                rows = rows + "<td>" + names[i] + "</td>"                            
+                        }
+
+                        var rivit = rows
+                        rows = ""
+                        return '<tr>' + rivit + '</tr>'
                     }).join('').replace(/undefined/g, '')
-                    console.log(rividata)
 
                 } catch (e) {
                     console.log(e)
