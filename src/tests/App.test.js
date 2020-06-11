@@ -20,12 +20,12 @@ describe('<App />', () => {
   })
 })
 
-describe('<App />', () => {
-  it('ping and its reply are rendered', () => {
-    cy.visit('http://localhost:3000')
-    cy.wait(3000)
+//describe('<App />', () => {
+//  it('ping and its reply are rendered', () => {
+//    cy.visit('http://localhost:3000')
+//    cy.wait(3000)
 
-    cy.get('div').contains('ping').should('be.visible')
-    cy.get('div').contains('pong').should('be.visible')
-  })
-})
+//    cy.get('div').contains('ping').should('be.visible')
+//    cy.get('div').contains('pong').should('be.visible')
+//  })
+//})
