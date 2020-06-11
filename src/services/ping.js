@@ -2,7 +2,8 @@ import axios from 'axios'
 const baseUrl = '/api/ping'
 
 const ping = async (hysqlSrv) => {
-  const response = await axios.get(`${hysqlSrv}${baseUrl}`)
+  var response = await axios.get(`https://hy-sql.herokuapp.com${baseUrl}`)
+
   return response.data
 }
 
