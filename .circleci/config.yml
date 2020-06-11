@@ -17,6 +17,7 @@ jobs:
       - run:
           name: start server
           command: npm start
+      - run: sleep 60
       - run:
           name: cypress tests
           command: npx cypress run --record --key feba9e22-8635-4de9-bfb5-713553b446aa
@@ -47,9 +48,13 @@ jobs:
       - run:
           name: start server
           command: npm start
+          background: true
+      - run: sleep 60
       - run:
           name: cypress tests
-          command: npx cypress run --record --key feba9e22-8635-4de9-bfb5-713553b446aa
+          command: npx cypress run 
+      - store_artifacts:
+          path: coverage
       - run:
           name: send code coverage report to codecov
           command: bash <(curl -s https://codecov.io/bash)
