@@ -48,8 +48,6 @@ jobs:
       - run:
           name: start server and test
           command: npm run ci
-      - store_artifacts:
-        path: coverage
 #          background: true
  #     - run: sleep 60
   #    - run:
