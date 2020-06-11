@@ -10,16 +10,6 @@ describe('Page renders', () => {
 })
 
 describe('<App />', () => {
-  it('ping and its reply are rendered', () => {
-    cy.visit('http://localhost:3000')
-    cy.wait(500)
-
-    cy.get('div').contains('ping').should('be.visible')
-    cy.get('div').contains('pong').should('be.visible')
-  })
-})
-
-describe('<App />', () => {
   it('ping is received', () => {
     cy.visit('http://localhost:3000')
     cy.wait(500)
@@ -27,5 +17,15 @@ describe('<App />', () => {
     cy.get('@pong').should((response) => {
       expect(response.body).contains({ value: 'pong' })
     })
+  })
+})
+
+describe('<App />', () => {
+  it('ping and its reply are rendered', () => {
+    cy.visit('http://localhost:3000')
+    cy.wait(3000)
+
+    cy.get('div').contains('ping').should('be.visible')
+    cy.get('div').contains('pong').should('be.visible')
   })
 })
