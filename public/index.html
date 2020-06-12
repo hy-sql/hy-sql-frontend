@@ -54,14 +54,28 @@
             var input = document.getElementById('box')
             var text = input.value
             var end = ',' + ' "';
+            var letter = text.charAt(13)
             text.trim()
+
             text = text.replace(/INSERT/g, (end + "INSERT"))
             text = text.replace(/SELECT/g, (end + "SELECT"))
             text = text.replace(/UPDATE/g, (end + "UPDATE"))
             text = text.replace(/DELETE/g, (end + "DELETE"))
-            var array = text.split(', "')
+
+            //Parsing cases the colons and semicolons can have after inital .replace() methods
+            //If something breaks after changing these, check if the order of methods is incorrect
+            text = text.replace(/\n/g, "")
+            text = text.replace(/;,/g, ';')
+            text = text.replace(/;+\w/g, ('; "' + letter))
+            text = text.replace(/; +\w/g, ('; "' + letter))
+            text = text.replace(/; ,+\w/g, ('; "' + letter))
+            text = text.replace(/; ,/g, ';')
+            text = text.replace(/ ,/g, "")
+            
+            var array = text.split(/ "/)
             var commandArray = { commandArray: array }
 
+            //Send input to backend and receive response
             //Needs to receive env-parameters?
             var res = await axios.post(`https://hy-sql.herokuapp.com${baseUrl}`, commandArray, {
                 headers: {
@@ -86,7 +100,6 @@
                     console.log(e[1].result)
                     tulos += '<br>' + e[1].result
                 }
-
                 if (e[1].error) {
                     console.log(e[1].error)
                     tulos += '<br>' + e[1].error
@@ -96,6 +109,12 @@
                 if (tuomio.length == 1 && !tuomio[0].result) {
                     console.log(tuomio[0])
                     tulos += '<br>' + tuomio[0]
+                    kunnossa = false
+                    break
+                }
+                if (!e[1].result && !e[1].error) {
+                    console.log(e[1])
+                    tulos += '<br>' + e[1]
                     kunnossa = false
                     break
                 }
