@@ -4,6 +4,16 @@
 
 https://hy-sql.netlify.app/
 
+Frontend for sending user's SQL-query to backend and receiving feedback about the query.
+
+## Developement
+
+Install dependencies: `npm install`
+
+Start app: `npm start`. This launches developement server with webpack integrated in react library to `localhost:3000`.
+
+Run Cypress tests: `npx cypress run`. Requires developement server to be running on the background.
+
 ## Cypress test results
 
 [Cypress](https://dashboard.cypress.io/projects/3xz4zv/runs?branches=%5B%5D&committers=%5B%5D&page=1&status=%5B%5D&tags=%5B%5D&timeRange=%7B%22startDate%22%3A%221970-01-01%22%2C%22endDate%22%3A%222038-01-19%22%7D)
