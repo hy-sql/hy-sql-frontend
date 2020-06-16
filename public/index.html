@@ -61,10 +61,16 @@
             text = text.replace(/SELECT/g, (end + "SELECT"))
             text = text.replace(/UPDATE/g, (end + "UPDATE"))
             text = text.replace(/DELETE/g, (end + "DELETE"))
+            text = text.replace(/FROM/g, (" FROM"))
+            text = text.replace(/WHERE/g, (" WHERE"))
+            text = text.replace(/GROUP BY/g, (" GROUP BY"))
+            text = text.replace(/HAVING/g, (" HAVING"))
+            text = text.replace(/ORDER BY/g, (" ORDER BY"))
+            text = text.replace(/LIMIT/g, (" LIMIT"))
 
-            //Parsing cases the colons and semicolons can have after inital .replace() methods
+            //Parsing cases the commas and semicolons can have after inital .replace() methods
             //If something breaks after changing these, check if the order of methods is incorrect
-            text = text.replace(/\n/g, "")
+            text = text.replace(/\n/g, " ")
             text = text.replace(/;,/g, ';')
             text = text.replace(/;+\w/g, ('; "' + letter))
             text = text.replace(/; +\w/g, ('; "' + letter))
