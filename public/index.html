@@ -94,7 +94,7 @@
             document.getElementById("table-rows").innerHTML = ""
             document.getElementById("table-columns").innerHTML = ""
 
-            let tuomio = res.data.resultArray
+            let tuomio = res.data.results
             var r = tuomio.length - 1
             const iterator1 = tuomio.entries()
 
@@ -132,7 +132,7 @@
 
                 //Columns
                 try {
-                    var col = res.data.resultArray[r].rows
+                    var col = res.data.results[r].rows
                     var columns = ""
                     var colu = Object.getOwnPropertyNames(col[0])
                     for (var i = 0; i < colu.length; i++) {
@@ -148,7 +148,7 @@
 
                 //Rows
                 try {
-                    var rividata = res.data.resultArray[r].rows
+                    var rividata = res.data.results[r].rows
                     var rows = ""
                     document.getElementById("table-rows").innerHTML = rividata.map((item) => {
                         var names = Object.values(item)
